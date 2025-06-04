@@ -8,6 +8,7 @@ const {
   fetchProfessors,
 } = require("./util"); 
 const { ROLES } = require("../../../consts");
+const {authServiceLogger:logger}= require("../../../logger");
 
 const router = express.Router();
 
@@ -29,6 +30,7 @@ router.post("/student", async (req, res) => {
     const student = students.find((s) => s.email === email);
 
     if (!student) {
+      logger.error('Password does not match')
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
@@ -44,6 +46,7 @@ router.post("/student", async (req, res) => {
       email: student.email,
       role: ROLES.STUDENT,
     });
+    logger.info('user with ${email} logged in successfully');
     res.json({ token });
 
   } catch (error) {

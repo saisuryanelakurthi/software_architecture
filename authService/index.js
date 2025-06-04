@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 
 const publicKeyRoute = require("./routes/auth/publicKeyRoute");
 const loginRoute = require("./routes/auth/loginRoute");
+const {correlationMiddleware} = require("../correlationId");
 
 dotenv.config();
 
@@ -11,6 +12,7 @@ const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Public Key
 app.use("/.well-known/jwks.json", publicKeyRoute);
