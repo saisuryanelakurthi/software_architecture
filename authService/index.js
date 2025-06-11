@@ -1,24 +1,30 @@
 const express = require("express");
 const dotenv = require("dotenv");
-
+const rateLimit = require("express-rate-limit");
 const publicKeyRoute = require("./routes/auth/publicKeyRoute");
 const loginRoute = require("./routes/auth/loginRoute");
-const {correlationMiddleware} = require("../correlationId");
+const { correlationIdMiddleware } = require("../correlationId");
 
 dotenv.config();
 
-// Initialize express app
+
 const app = express();
 
+const limiter = rateLimit({
+  windowMs: 60 * 1000 * 1000, 
+  max: 10, 
+  message: "Too many requests, please try again later.",
+  headers: true, 
+});
 // Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(correlationIdMiddleware);
 
 // Public Key
 app.use("/.well-known/jwks.json", publicKeyRoute);
 
 // Routes
-app.use("/api/login", loginRoute);
+app.use("/api/login", limiter, loginRoute);
 
 // Start server
 const PORT = process.env.PORT || 5001;

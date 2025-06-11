@@ -9,12 +9,25 @@
     "start:studentService": "npm --prefix ./studentService run dev-student-service",
     "start:courseService": "npm --prefix ./courseService run dev-course-service",
     "start:enrollmentService": "npm --prefix ./enrollmentService run dev-enrollment-service",
-    "start:all": "concurrently --kill-others-on-fail -n professorService,studentService -c blue,magenta \"npm run start:professorService\" \"npm run start:studentService\" \"npm run start:authService\""
+    "start:all": "concurrently --kill-others-on-fail -n professorService,studentService -c blue,magenta \"npm run start:professorService\" \"npm run start:studentService\" \"npm run start:authService\" \"npm run start:courseService\" \"npm run start:enrollmentService\""
   },
   "author": "Gunjan Kadu",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^9.1.2",
     "nodemon": "^3.1.9"
+  },
+  "dependencies": {
+    "axios": "^1.9.0",
+    "bcryptjs": "^3.0.2",
+    "cls-hooked": "^4.2.2",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0",
+    "winston-elasticsearch": "^0.19.0"
   }
 }
